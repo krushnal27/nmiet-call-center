@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, jsonify, Response
-from queue import Queue
+from queue_ds import Queue
 from datetime import datetime
 import sqlite3
 import csv
