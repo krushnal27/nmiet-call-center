@@ -1,0 +1,1670 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>NMIET Call Center Management System</title>
+
+    <!-- NMIET Favicon -->
+    <link
+        rel="icon"
+        type="image/png"
+        href="{{ url_for('static', filename='nmiet-logo.png') }}"
+    >
+
+    <!-- CSS -->
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+
+
+<body>
+
+<!-- =========================================================
+     SIDEBAR
+     ========================================================= -->
+
+<aside class="sidebar">
+
+    <div class="sidebar-brand">
+
+        <img
+            src="{{ url_for('static', filename='nmiet-logo.png') }}"
+            alt="NMIET Logo"
+        >
+
+        <div>
+            <strong>NMIET</strong>
+            <span>Call Center</span>
+        </div>
+
+    </div>
+
+
+    <nav class="sidebar-nav">
+
+        <a href="#dashboard" class="nav-link active">
+            <span>▦</span>
+            Dashboard
+        </a>
+
+        <a href="#queue-section" class="nav-link">
+            <span>👥</span>
+            Current Queue
+        </a>
+
+        <a href="#history-section" class="nav-link">
+            <span>📋</span>
+            Call History
+        </a>
+
+        <a href="#analytics-section" class="nav-link">
+            <span>📊</span>
+            Analytics
+        </a>
+
+    </nav>
+
+
+    <div class="sidebar-footer">
+
+        <div class="online-indicator"></div>
+
+        <div>
+            <strong>System Online</strong>
+            <small>Call Center Dashboard</small>
+        </div>
+
+    </div>
+
+</aside>
+
+
+<!-- =========================================================
+     MAIN CONTENT
+     ========================================================= -->
+
+<main class="main-content">
+
+
+    <!-- =====================================================
+         HEADER
+         ===================================================== -->
+
+    <header class="top-header">
+
+        <div>
+
+            <p class="page-label">
+                NMIET • INFORMATION TECHNOLOGY
+            </p>
+
+            <h1>
+                Call Center Management System
+            </h1>
+
+            <p class="header-subtitle">
+                Queue Management • Agent Assignment •
+                Waiting-Time Analysis
+            </p>
+
+        </div>
+
+
+        <div class="header-status">
+
+            <span class="status-dot"></span>
+
+            <div>
+                <strong>System Online</strong>
+                <small>Live Dashboard</small>
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- =====================================================
+         DASHBOARD
+         ===================================================== -->
+
+    <section id="dashboard">
+
+
+        <!-- Welcome -->
+
+        <div class="welcome-card">
+
+            <div>
+
+                <span class="welcome-tag">
+                    NMIET CALL CENTER
+                </span>
+
+                <h2>
+                    Queue Management Dashboard
+                </h2>
+
+                <p>
+                    Manage incoming customer calls using
+                    FIFO queue processing and analyze
+                    waiting-time performance.
+                </p>
+
+            </div>
+
+            <div class="welcome-icon">
+                📞
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             STATISTICS
+             ================================================= -->
+
+        <div class="stats-grid">
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon blue">
+                    📊
+                </div>
+
+                <div>
+
+                    <span>
+                        Total Calls
+                    </span>
+
+                    <strong id="totalCalls">
+                        0
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon orange">
+                    ⏳
+                </div>
+
+                <div>
+
+                    <span>
+                        Waiting Calls
+                    </span>
+
+                    <strong id="waitingCalls">
+                        0
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon green">
+                    ✓
+                </div>
+
+                <div>
+
+                    <span>
+                        Served Calls
+                    </span>
+
+                    <strong id="servedCalls">
+                        0
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon purple">
+                    ⏱
+                </div>
+
+                <div>
+
+                    <span>
+                        Average Waiting
+                    </span>
+
+                    <strong id="averageWaiting">
+                        0 min
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon red">
+                    📈
+                </div>
+
+                <div>
+
+                    <span>
+                        Maximum Waiting
+                    </span>
+
+                    <strong id="maximumWaiting">
+                        0 min
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             ADD CALL
+             ================================================= -->
+
+        <section class="content-card">
+
+            <div class="section-title">
+
+                <div>
+
+                    <span class="section-icon">
+                        +
+                    </span>
+
+                    <div>
+
+                        <h2>
+                            Add New Call
+                        </h2>
+
+                        <p>
+                            Add a customer to the waiting queue
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="form-grid">
+
+
+                <div class="form-group">
+
+                    <label>
+                        Customer Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="customerName"
+                        placeholder="Enter customer name"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Phone Number
+                    </label>
+
+                    <input
+                        type="text"
+                        id="phoneNumber"
+                        placeholder="Enter phone number"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Call Type
+                    </label>
+
+                    <select id="callType">
+
+                        <option value="">
+                            Select call type
+                        </option>
+
+                        <option value="General Inquiry">
+                            General Inquiry
+                        </option>
+
+                        <option value="Technical Support">
+                            Technical Support
+                        </option>
+
+                        <option value="Complaint">
+                            Complaint
+                        </option>
+
+                        <option value="Billing Support">
+                            Billing Support
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Assign Agent
+                    </label>
+
+                    <select id="agent">
+
+                        <option value="">
+                            Unassigned
+                        </option>
+
+                        <option value="Agent A">
+                            Agent A
+                        </option>
+
+                        <option value="Agent B">
+                            Agent B
+                        </option>
+
+                        <option value="Agent C">
+                            Agent C
+                        </option>
+
+                        <option value="Agent D">
+                            Agent D
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            <button
+                class="primary-button"
+                onclick="addCall()"
+            >
+                + Add Customer to Queue
+            </button>
+
+        </section>
+
+
+    </section>
+
+
+    <!-- =====================================================
+         CURRENT QUEUE
+         ===================================================== -->
+
+    <section
+        id="queue-section"
+        class="content-card"
+    >
+
+        <div class="section-header">
+
+            <div>
+
+                <div class="title-with-icon">
+
+                    <span class="section-icon blue-bg">
+                        👥
+                    </span>
+
+                    <div>
+
+                        <h2>
+                            Current Call Queue
+                        </h2>
+
+                        <p>
+                            First In First Out (FIFO)
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <button
+                class="serve-button"
+                onclick="serveNextCall()"
+            >
+                ▶ Serve Next Call
+            </button>
+
+        </div>
+
+
+        <!-- Search -->
+
+        <div class="queue-filters">
+
+            <input
+                type="text"
+                id="searchQueue"
+                placeholder="🔍 Search customer or phone..."
+                oninput="filterQueue()"
+            >
+
+
+            <select
+                id="filterType"
+                onchange="filterQueue()"
+            >
+
+                <option value="all">
+                    All Call Types
+                </option>
+
+                <option value="General Inquiry">
+                    General Inquiry
+                </option>
+
+                <option value="Technical Support">
+                    Technical Support
+                </option>
+
+                <option value="Complaint">
+                    Complaint
+                </option>
+
+                <option value="Billing Support">
+                    Billing Support
+                </option>
+
+            </select>
+
+
+            <button
+                class="clear-filter"
+                onclick="clearQueueFilter()"
+            >
+                Clear
+            </button>
+
+        </div>
+
+
+        <div class="table-container">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            #
+                        </th>
+
+                        <th>
+                            Customer
+                        </th>
+
+                        <th>
+                            Phone
+                        </th>
+
+                        <th>
+                            Call Type
+                        </th>
+
+                        <th>
+                            Agent
+                        </th>
+
+                        <th>
+                            Arrival
+                        </th>
+
+                        <th>
+                            Waiting
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody id="queueTable">
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+        <div
+            id="emptyQueue"
+            class="empty-state"
+        >
+
+            <div>
+                📭
+            </div>
+
+            <h3>
+                No customers waiting
+            </h3>
+
+            <p>
+                The queue is currently empty.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         CALL HISTORY
+         ===================================================== -->
+
+    <section
+        id="history-section"
+        class="content-card"
+    >
+
+        <div class="section-header">
+
+            <div class="title-with-icon">
+
+                <span class="section-icon purple-bg">
+                    📋
+                </span>
+
+                <div>
+
+                    <h2>
+                        Call History
+                    </h2>
+
+                    <p>
+                        Complete record of customer calls
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="history-actions">
+
+                <button
+                    class="export-button"
+                    onclick="exportCSV()"
+                >
+                    ↓ Export CSV
+                </button>
+
+                <button
+                    class="danger-button"
+                    onclick="clearHistory()"
+                >
+                    Clear Served
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div class="table-container">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>ID</th>
+
+                        <th>Customer</th>
+
+                        <th>Phone</th>
+
+                        <th>Call Type</th>
+
+                        <th>Agent</th>
+
+                        <th>Arrival</th>
+
+                        <th>Service</th>
+
+                        <th>Waiting</th>
+
+                        <th>Status</th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody id="historyTable">
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         ANALYTICS
+         ===================================================== -->
+
+    <section
+        id="analytics-section"
+        class="analytics-section"
+    >
+
+        <div class="section-header">
+
+            <div class="title-with-icon">
+
+                <span class="section-icon green-bg">
+                    📊
+                </span>
+
+                <div>
+
+                    <h2>
+                        Analytics & Reports
+                    </h2>
+
+                    <p>
+                        Call distribution and waiting-time analysis
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="charts-grid">
+
+
+            <!-- Call Type Chart -->
+
+            <div class="chart-card">
+
+                <h3>
+                    Calls by Type
+                </h3>
+
+                <div class="chart-container">
+
+                    <canvas id="callTypeChart">
+                    </canvas>
+
+                </div>
+
+            </div>
+
+
+            <!-- Waiting Time Chart -->
+
+            <div class="chart-card">
+
+                <h3>
+                    Waiting-Time Analysis
+                </h3>
+
+                <div class="chart-container">
+
+                    <canvas id="waitingChart">
+                    </canvas>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Analytics summary -->
+
+        <div class="analytics-summary">
+
+            <div>
+
+                <span>
+                    Total Waiting Time
+                </span>
+
+                <strong id="totalWaitingTime">
+                    0 min
+                </strong>
+
+            </div>
+
+
+            <div>
+
+                <span>
+                    Average Waiting Time
+                </span>
+
+                <strong id="analyticsAverage">
+                    0 min
+                </strong>
+
+            </div>
+
+
+            <div>
+
+                <span>
+                    Maximum Waiting Time
+                </span>
+
+                <strong id="analyticsMaximum">
+                    0 min
+                </strong>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         FOOTER
+         ===================================================== -->
+
+    <footer>
+
+        <div class="footer-brand">
+
+            <img
+                src="{{ url_for('static', filename='nmiet-logo.png') }}"
+                alt="NMIET Logo"
+            >
+
+            <div>
+
+                <strong>
+                    NMIET Call Center Management System
+                </strong>
+
+                <span>
+                    Information Technology Department
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="footer-right">
+
+            <p>
+                Developed by
+                <strong>Krushnal Badgujar & Hassan Ansari</strong>
+            </p>
+
+            <p>
+                Python • Flask • SQLite • Data Structures
+            </p>
+
+        </div>
+
+    </footer>
+
+
+</main>
+
+
+<!-- =========================================================
+     JAVASCRIPT
+     ========================================================= -->
+
+<script>
+
+let queueData = [];
+
+let historyData = [];
+
+let callTypeChart = null;
+
+let waitingChart = null;
+
+
+/* =========================================================
+   ADD CALL
+   ========================================================= */
+
+async function addCall() {
+
+    const name =
+        document.getElementById("customerName").value.trim();
+
+    const phone =
+        document.getElementById("phoneNumber").value.trim();
+
+    const type =
+        document.getElementById("callType").value;
+
+    const agent =
+        document.getElementById("agent").value;
+
+
+    if (!name || !phone || !type) {
+
+        alert("Please fill Customer Name, Phone Number and Call Type.");
+
+        return;
+    }
+
+
+    try {
+
+        const response = await fetch("/add_call", {
+
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify({
+
+                name: name,
+
+                phone: phone,
+
+                type: type,
+
+                agent: agent
+
+            })
+
+        });
+
+
+        const data = await response.json();
+
+
+        if (!response.ok) {
+
+            alert(data.message);
+
+            return;
+        }
+
+
+        alert("Customer added successfully!");
+
+
+        document.getElementById("customerName").value = "";
+
+        document.getElementById("phoneNumber").value = "";
+
+        document.getElementById("callType").value = "";
+
+        document.getElementById("agent").value = "";
+
+
+        loadAll();
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        alert("Unable to add customer.");
+
+    }
+
+}
+
+
+/* =========================================================
+   LOAD QUEUE
+   ========================================================= */
+
+async function loadQueue() {
+
+    try {
+
+        const response = await fetch("/queue");
+
+        queueData = await response.json();
+
+        renderQueue();
+
+    }
+
+    catch (error) {
+
+        console.error("Queue error:", error);
+
+    }
+
+}
+
+
+/* =========================================================
+   RENDER QUEUE
+   ========================================================= */
+
+function renderQueue() {
+
+    const table =
+        document.getElementById("queueTable");
+
+    const empty =
+        document.getElementById("emptyQueue");
+
+
+    table.innerHTML = "";
+
+
+    if (queueData.length === 0) {
+
+        empty.style.display = "block";
+
+        return;
+
+    }
+
+
+    empty.style.display = "none";
+
+
+    queueData.forEach((call, index) => {
+
+        const row =
+            document.createElement("tr");
+
+
+        row.innerHTML = `
+
+            <td>
+                <span class="queue-number">
+                    ${index + 1}
+                </span>
+            </td>
+
+            <td>
+                <strong>
+                    ${escapeHTML(call.name)}
+                </strong>
+            </td>
+
+            <td>
+                ${escapeHTML(call.phone)}
+            </td>
+
+            <td>
+                <span class="type-badge">
+                    ${escapeHTML(call.type)}
+                </span>
+            </td>
+
+            <td>
+                ${call.agent
+                    ? escapeHTML(call.agent)
+                    : '<span class="unassigned">Unassigned</span>'
+                }
+            </td>
+
+            <td>
+                ${escapeHTML(call.arrival_time)}
+            </td>
+
+            <td>
+                <strong class="waiting-time">
+                    ${call.waiting_time} min
+                </strong>
+            </td>
+
+        `;
+
+
+        table.appendChild(row);
+
+    });
+
+
+    filterQueue();
+
+}
+
+
+/* =========================================================
+   FILTER QUEUE
+   ========================================================= */
+
+function filterQueue() {
+
+    const search =
+        document
+            .getElementById("searchQueue")
+            .value
+            .toLowerCase()
+            .trim();
+
+
+    const type =
+        document.getElementById("filterType").value;
+
+
+    const rows =
+        document
+            .getElementById("queueTable")
+            .getElementsByTagName("tr");
+
+
+    for (let row of rows) {
+
+        const text =
+            row.innerText.toLowerCase();
+
+
+        const typeCell =
+            row.cells[3]
+                ? row.cells[3].innerText.trim()
+                : "";
+
+
+        const searchMatch =
+            text.includes(search);
+
+
+        const typeMatch =
+            type === "all" ||
+            typeCell === type;
+
+
+        row.style.display =
+            searchMatch && typeMatch
+                ? ""
+                : "none";
+
+    }
+
+}
+
+
+/* =========================================================
+   CLEAR FILTER
+   ========================================================= */
+
+function clearQueueFilter() {
+
+    document.getElementById("searchQueue").value = "";
+
+    document.getElementById("filterType").value = "all";
+
+    filterQueue();
+
+}
+
+
+/* =========================================================
+   SERVE CALL
+   ========================================================= */
+
+async function serveNextCall() {
+
+    if (queueData.length === 0) {
+
+        alert("Queue is empty.");
+
+        return;
+    }
+
+
+    if (!confirm("Serve the next customer in the FIFO queue?")) {
+
+        return;
+    }
+
+
+    try {
+
+        const response =
+            await fetch("/serve_call", {
+
+                method: "POST"
+
+            });
+
+
+        const data =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            alert(data.message);
+
+            return;
+        }
+
+
+        alert(data.message);
+
+
+        loadAll();
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        alert("Unable to serve call.");
+
+    }
+
+}
+
+
+/* =========================================================
+   LOAD STATS
+   ========================================================= */
+
+async function loadStats() {
+
+    try {
+
+        const response =
+            await fetch("/stats");
+
+
+        const data =
+            await response.json();
+
+
+        document.getElementById("totalCalls")
+            .textContent = data.total_calls;
+
+
+        document.getElementById("waitingCalls")
+            .textContent = data.waiting_calls;
+
+
+        document.getElementById("servedCalls")
+            .textContent = data.served_calls;
+
+
+        document.getElementById("averageWaiting")
+            .textContent =
+                data.average_waiting_time + " min";
+
+
+        document.getElementById("maximumWaiting")
+            .textContent =
+                data.maximum_waiting_time + " min";
+
+
+        document.getElementById("totalWaitingTime")
+            .textContent =
+                data.total_waiting_time + " min";
+
+
+        document.getElementById("analyticsAverage")
+            .textContent =
+                data.average_waiting_time + " min";
+
+
+        document.getElementById("analyticsMaximum")
+            .textContent =
+                data.maximum_waiting_time + " min";
+
+    }
+
+    catch (error) {
+
+        console.error("Stats error:", error);
+
+    }
+
+}
+
+
+/* =========================================================
+   LOAD HISTORY
+   ========================================================= */
+
+async function loadHistory() {
+
+    try {
+
+        const response =
+            await fetch("/history");
+
+
+        historyData =
+            await response.json();
+
+
+        const table =
+            document.getElementById("historyTable");
+
+
+        table.innerHTML = "";
+
+
+        historyData.forEach(call => {
+
+            const row =
+                document.createElement("tr");
+
+
+            const statusClass =
+                call.status === "Served"
+                    ? "status-served"
+                    : "status-waiting";
+
+
+            row.innerHTML = `
+
+                <td>
+                    ${call.id}
+                </td>
+
+                <td>
+                    <strong>
+                        ${escapeHTML(call.name)}
+                    </strong>
+                </td>
+
+                <td>
+                    ${escapeHTML(call.phone)}
+                </td>
+
+                <td>
+                    <span class="type-badge">
+                        ${escapeHTML(call.type)}
+                    </span>
+                </td>
+
+                <td>
+                    ${escapeHTML(call.agent)}
+                </td>
+
+                <td>
+                    ${escapeHTML(call.arrival_time)}
+                </td>
+
+                <td>
+                    ${escapeHTML(call.service_time)}
+                </td>
+
+                <td>
+                    ${call.waiting_time} min
+                </td>
+
+                <td>
+                    <span class="${statusClass}">
+                        ${escapeHTML(call.status)}
+                    </span>
+                </td>
+
+            `;
+
+
+            table.appendChild(row);
+
+        });
+
+    }
+
+    catch (error) {
+
+        console.error("History error:", error);
+
+    }
+
+}
+
+
+/* =========================================================
+   ANALYTICS
+   ========================================================= */
+
+async function loadAnalytics() {
+
+    try {
+
+        const response =
+            await fetch("/analytics");
+
+
+        const data =
+            await response.json();
+
+
+        createCallTypeChart(data.call_types);
+
+        createWaitingChart(data.waiting_times);
+
+    }
+
+    catch (error) {
+
+        console.error("Analytics error:", error);
+
+    }
+
+}
+
+
+/* =========================================================
+   CALL TYPE CHART
+   ========================================================= */
+
+function createCallTypeChart(data) {
+
+    const ctx =
+        document
+            .getElementById("callTypeChart")
+            .getContext("2d");
+
+
+    if (callTypeChart) {
+
+        callTypeChart.destroy();
+
+    }
+
+
+    callTypeChart =
+        new Chart(ctx, {
+
+            type: "doughnut",
+
+            data: {
+
+                labels:
+                    data.map(item => item.type),
+
+                datasets: [{
+
+                    data:
+                        data.map(item => item.count),
+
+                    borderWidth: 2
+
+                }]
+
+            },
+
+            options: {
+
+                responsive: true,
+
+                maintainAspectRatio: false,
+
+                plugins: {
+
+                    legend: {
+
+                        position: "bottom"
+
+                    }
+
+                }
+
+            }
+
+        });
+
+}
+
+
+/* =========================================================
+   WAITING TIME CHART
+   ========================================================= */
+
+function createWaitingChart(data) {
+
+    const ctx =
+        document
+            .getElementById("waitingChart")
+            .getContext("2d");
+
+
+    if (waitingChart) {
+
+        waitingChart.destroy();
+
+    }
+
+
+    waitingChart =
+        new Chart(ctx, {
+
+            type: "bar",
+
+            data: {
+
+                labels:
+                    data.map(item => item.name),
+
+                datasets: [{
+
+                    label: "Waiting Time (minutes)",
+
+                    data:
+                        data.map(item => item.waiting_time),
+
+                    borderWidth: 1
+
+                }]
+
+            },
+
+            options: {
+
+                responsive: true,
+
+                maintainAspectRatio: false,
+
+                scales: {
+
+                    y: {
+
+                        beginAtZero: true,
+
+                        title: {
+
+                            display: true,
+
+                            text: "Minutes"
+
+                        }
+
+                    }
+
+                },
+
+                plugins: {
+
+                    legend: {
+
+                        display: false
+
+                    }
+
+                }
+
+            }
+
+        });
+
+}
+
+
+/* =========================================================
+   EXPORT CSV
+   ========================================================= */
+
+function exportCSV() {
+
+    window.location.href =
+        "/export_csv";
+
+}
+
+
+/* =========================================================
+   CLEAR HISTORY
+   ========================================================= */
+
+async function clearHistory() {
+
+    if (
+        !confirm(
+            "Are you sure you want to delete all served call history?"
+        )
+    ) {
+
+        return;
+
+    }
+
+
+    try {
+
+        const response =
+            await fetch("/clear_history", {
+
+                method: "DELETE"
+
+            });
+
+
+        const data =
+            await response.json();
+
+
+        alert(data.message);
+
+
+        loadAll();
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        alert("Unable to clear history.");
+
+    }
+
+}
+
+
+/* =========================================================
+   HTML SECURITY
+   ========================================================= */
+
+function escapeHTML(value) {
+
+    const div =
+        document.createElement("div");
+
+    div.textContent =
+        value ?? "";
+
+    return div.innerHTML;
+
+}
+
+
+/* =========================================================
+   LOAD EVERYTHING
+   ========================================================= */
+
+async function loadAll() {
+
+    await loadQueue();
+
+    await loadStats();
+
+    await loadHistory();
+
+    await loadAnalytics();
+
+}
+
+
+/* =========================================================
+   INITIAL LOAD
+   ========================================================= */
+
+loadAll();
+
+
+/* =========================================================
+   AUTO REFRESH
+   ========================================================= */
+
+setInterval(() => {
+
+    loadQueue();
+
+    loadStats();
+
+}, 5000);
+
+</script>
+
+
+</body>
+
+</html>
